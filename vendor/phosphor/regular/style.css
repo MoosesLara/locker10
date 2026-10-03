@@ -1,0 +1,46 @@
+/* Phosphor Icons (MIT), peso regular: recortado a los 11 íconos que usa el sitio.
+   Para agregar un ícono nuevo, vuelve a descargar el peso completo desde @phosphor-icons/web. */
+@font-face {
+  font-family: "Phosphor";
+  src: url("./Phosphor.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.ph {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "Phosphor" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ph.ph-list:before { content: "\e2f0"; }
+.ph.ph-whatsapp-logo:before { content: "\e5d0"; }
+.ph.ph-arrow-down-right:before { content: "\e042"; }
+.ph.ph-arrow-left:before { content: "\e058"; }
+.ph.ph-arrow-right:before { content: "\e06c"; }
+.ph.ph-check:before { content: "\e182"; }
+.ph.ph-instagram-logo:before { content: "\e2d0"; }
+.ph.ph-tiktok-logo:before { content: "\eaf2"; }
+.ph.ph-facebook-logo:before { content: "\e226"; }
+.ph.ph-arrow-up-right:before { content: "\e092"; }
+.ph.ph-x:before { content: "\e4f6"; }

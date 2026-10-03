@@ -1,0 +1,31 @@
+# Cabeceras de seguridad y caché (Netlify y Cloudflare Pages leen este archivo).
+# Content-Security-Policy: solo permite recursos del propio sitio, más Google Maps
+# (si el visitante lo acepta) y Google Analytics / Meta (solo si los configuras en js/config.js).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com; frame-src https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS y JS unidos con huella en el nombre (los genera build.mjs): se pueden cachear 1 año
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fotos: 1 año. Si reemplazas una foto, usa un nombre de archivo nuevo.
+/img/*
+  Cache-Control: public, max-age=31536000
+
+/site.webmanifest
+  Cache-Control: public, max-age=86400

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Si tu dominio no es locker10.gt, cámbialo en todas las URL. Actualiza <lastmod> cuando cambies una página. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://locker10.gt/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://locker10.gt/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://locker10.gt/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://locker10.gt/"/>
+  </url>
+  <url>
+    <loc>https://locker10.gt/privacidad.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://locker10.gt/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://locker10.gt/privacidad.html?lang=en"/>
+  </url>
+  <url>
+    <loc>https://locker10.gt/terminos.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="https://locker10.gt/terminos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://locker10.gt/terminos.html?lang=en"/>
+  </url>
+</urlset>

@@ -1,0 +1,6 @@
+# LOCKER 10 · https://locker10.gt
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://locker10.gt/sitemap.xml

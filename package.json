@@ -1,0 +1,13 @@
+{
+  "name": "locker10-sitio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio de LOCKER 10 (HTML/CSS/JS estático). 'npm run build' genera dist/.",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs --preview"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}

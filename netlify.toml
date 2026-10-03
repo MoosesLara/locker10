@@ -1,0 +1,6 @@
+# Netlify: genera dist/ con build.mjs y publica solo esa carpeta
+# (así no se suben las carpetas de herramientas ni los documentos internos).
+# Las cabeceras de seguridad están en _headers. La página 404.html se usa sola.
+[build]
+  command = "node build.mjs"
+  publish = "dist"

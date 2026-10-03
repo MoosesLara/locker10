@@ -1,0 +1,39 @@
+/* Phosphor Icons (MIT), peso light: recortado a los 4 íconos que usa el sitio.
+   Para agregar un ícono nuevo, vuelve a descargar el peso completo desde @phosphor-icons/web. */
+@font-face {
+  font-family: "Phosphor-Light";
+  src: url("./Phosphor-Light.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.ph-light {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "Phosphor-Light" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ph-light.ph-certificate:before { content: "\e766"; }
+.ph-light.ph-barbell:before { content: "\e0b6"; }
+.ph-light.ph-users-three:before { content: "\e68e"; }
+.ph-light.ph-map-pin:before { content: "\e316"; }

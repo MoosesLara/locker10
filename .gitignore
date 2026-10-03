@@ -1,0 +1,16 @@
+# Carpeta generada por build.mjs
+dist/
+locker10-dist.zip
+
+# Dependencias (se instalan con npm install)
+node_modules/
+
+# Herramientas de IA y diseño (no forman parte del sitio)
+.claude/
+.agents/
+.agent/
+.gemini/
+.impeccable/
+skills-lock.json
+PRODUCT.md
+DESIGN.md
