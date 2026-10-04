@@ -391,6 +391,9 @@ html { scrollbar-color: var(--field-hi) var(--ground); }
   .mo .carousel__track .door:not(.is-current):hover { opacity: 0.7; }
 }
 .carousel__track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+/* Salto silencioso del carrusel infinito: sin transiciones durante ese único cuadro */
+.carousel__track.is-jumping .door,
+.carousel__track.is-jumping .door * { transition: none !important; }
 .carousel__track.is-dragging .door { pointer-events: none; }
 @media (hover: hover) and (pointer: fine) {
   .carousel__track { cursor: grab; }
@@ -429,7 +432,6 @@ html { scrollbar-color: var(--field-hi) var(--ground); }
 .plans { background: var(--field); }
 .plans .h2 { margin-bottom: 16px; }
 .plans__note { color: #c9d3c6; margin-bottom: clamp(40px, 5vw, 64px); }
-.plans__taxes { margin-top: clamp(40px, 5vw, 56px); color: #c9d3c6; font-size: 0.875rem; }
 .plans__grid { display: grid; grid-template-columns: 1fr 1.12fr 1fr; gap: 0; align-items: stretch; }
 .plan {
   position: relative;
@@ -493,13 +495,8 @@ html { scrollbar-color: var(--field-hi) var(--ground); }
 .story__result .num { display: block; color: var(--brass); font-size: clamp(4rem, 9vw, 6rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
 .story figcaption { margin-top: 20px; color: var(--muted); font-size: 0.9375rem; }
 .story figcaption strong { display: block; color: var(--bone); font-weight: 700; }
-.stories__note { grid-column: 1 / -1; margin-top: 32px; color: var(--muted); font-size: 0.875rem; }
+.stories__note { grid-column: 1 / -1; margin-top: 28px; color: var(--muted); font-size: 0.8125rem; }
 
-/* Aviso de privacidad junto a los botones de WhatsApp */
-.consent { margin-top: 18px; max-width: 42ch; color: var(--muted); font-size: 0.875rem; }
-.closing .consent { color: #c9d3c6; }
-.consent a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--line); transition: color 180ms ease; }
-.consent a:hover { color: var(--brass-hi); }
 
 /* ---------- 6. Entrenadores: placas con nombre ---------- */
 .coaches { background: var(--raised); border-block: 1px solid var(--line-soft); }
@@ -622,7 +619,6 @@ html { scrollbar-color: var(--field-hi) var(--ground); }
 .footer__contact a:hover { color: var(--brass-hi); }
 .footer__col .keytag { margin-top: 6px; }
 .footer__links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-.footer__complaints p { padding-bottom: 32px; color: var(--muted); font-size: 0.8125rem; }
 .footer__btn {
   padding: 0;
   background: none;

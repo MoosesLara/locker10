@@ -96,7 +96,7 @@ window.TRANSLATIONS = {
 
       "plans.title": "Elige tu llave.",
       "plans.note": "Sin inscripción ni contratos anuales. Tu primera clase es gratis.",
-      "plans.period": "/ mes",
+      "plans.period": "/ mes · IVA incl.",
       "plans.badge": "El favorito",
       "plans.choose": "Elegir plan {plan}",
       "plans.p1.name": "Estudiante",
@@ -185,13 +185,11 @@ window.TRANSLATIONS = {
       "footer.privacy": "Aviso de privacidad",
       "footer.terms": "Términos y condiciones",
       "footer.cookies": "Cookies",
-      "footer.complaints": "Libro de quejas disponible en recepción. También puedes acudir a la DIACO: 1544.",
+      "footer.complaintsLink": "Quejas",
       "footer.mapLoad": "Ver mapa",
-      "footer.mapNote": "Al abrir el mapa, Google Maps recibe tu dirección IP y puede usar cookies.",
+      "footer.mapNote": "Google Maps recibirá tu IP y podrá usar cookies al abrirlo.",
 
-      "consent.whatsapp": "Al escribirnos aceptas nuestro <a href=\"privacidad.html\">Aviso de privacidad</a>.",
-      "stories.disclaimer": "Los resultados varían según cada persona y dependen de la constancia, la alimentación y el descanso.",
-      "plans.taxes": "Precios en quetzales con IVA incluido. Emitimos factura electrónica (FEL).",
+      "stories.disclaimer": "Los resultados varían según cada persona.",
 
       "cookies.title": "Tú decides qué se activa",
       "cookies.text": "Tu idioma se guarda solo en tu navegador. Los servicios externos, como Google Maps, solo se activan si los permites. <a href=\"privacidad.html#cookies\">Más información sobre cookies</a>.",
@@ -307,7 +305,7 @@ window.TRANSLATIONS = {
 
       "plans.title": "Pick your key.",
       "plans.note": "No sign-up fee and no annual contracts. Your first class is free.",
-      "plans.period": "/ month",
+      "plans.period": "/ month · VAT incl.",
       "plans.badge": "Most popular",
       "plans.choose": "Choose {plan}",
       "plans.p1.name": "Student",
@@ -396,13 +394,11 @@ window.TRANSLATIONS = {
       "footer.privacy": "Privacy notice",
       "footer.terms": "Terms and conditions",
       "footer.cookies": "Cookies",
-      "footer.complaints": "Complaints book available at the front desk. You can also contact DIACO (Guatemala's consumer authority): 1544.",
+      "footer.complaintsLink": "Complaints",
       "footer.mapLoad": "Show map",
-      "footer.mapNote": "When you open the map, Google Maps receives your IP address and may use cookies.",
+      "footer.mapNote": "Google Maps will receive your IP and may set cookies when opened.",
 
-      "consent.whatsapp": "By messaging us you accept our <a href=\"privacidad.html\">Privacy notice</a>.",
-      "stories.disclaimer": "Results vary from person to person and depend on consistency, nutrition and rest.",
-      "plans.taxes": "Prices in quetzales, VAT included. We issue electronic invoices (FEL).",
+      "stories.disclaimer": "Results vary from person to person.",
 
       "cookies.title": "You decide what gets turned on",
       "cookies.text": "Your language is stored only in your browser. External services, like Google Maps, only turn on if you allow them. <a href=\"privacidad.html#cookies\">Learn more about cookies</a>.",

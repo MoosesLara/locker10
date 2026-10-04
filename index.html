@@ -243,7 +243,7 @@
 
       <!-- Para agregar un programa copia un <div class="door"> completo y crea sus claves en js/translations.js.
            data-start indica con qué diapositiva arranca (1 = la primera). -->
-      <div class="carousel" role="region" aria-roledescription="carrusel" aria-labelledby="programs-title" data-i18n-attr="aria-roledescription:programs.carousel" data-carousel data-start="2">
+      <div class="carousel" role="region" aria-roledescription="carrusel" aria-labelledby="programs-title" data-i18n-attr="aria-roledescription:programs.carousel" data-carousel data-start="1">
         <div class="carousel__track" id="programas-track" tabindex="0" data-carousel-track>
           <div class="door" role="group" aria-roledescription="diapositiva" data-i18n-attr="aria-roledescription:programs.slide" data-door>
             <figure class="locker">
@@ -302,7 +302,7 @@
         <div class="plans__grid" data-stagger>
           <article class="plan">
             <h3 class="plan__name" data-i18n="plans.p1.name">Estudiante</h3>
-            <p class="plan__price"><span class="num" data-count="299" data-prefix="Q">Q299</span> <small data-i18n="plans.period">/ mes</small></p>
+            <p class="plan__price"><span class="num" data-count="299" data-prefix="Q">Q299</span> <small data-i18n="plans.period">/ mes · IVA incl.</small></p>
             <ul class="plan__list" role="list">
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p1.f1">Acceso al gym de lunes a viernes</span></li>
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p1.f2">Evaluación inicial con coach</span></li>
@@ -315,7 +315,7 @@
           <article class="plan plan--featured">
             <p class="plan__badge" data-i18n="plans.badge">El favorito</p>
             <h3 class="plan__name" data-i18n="plans.p2.name">Club</h3>
-            <p class="plan__price"><span class="num" data-count="449" data-prefix="Q">Q449</span> <small data-i18n="plans.period">/ mes</small></p>
+            <p class="plan__price"><span class="num" data-count="449" data-prefix="Q">Q449</span> <small data-i18n="plans.period">/ mes · IVA incl.</small></p>
             <ul class="plan__list" role="list">
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p2.f1">Acceso todos los días, todo el horario</span></li>
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p2.f2">Clases grupales ilimitadas</span></li>
@@ -327,7 +327,7 @@
 
           <article class="plan">
             <h3 class="plan__name" data-i18n="plans.p3.name">Pro</h3>
-            <p class="plan__price"><span class="num" data-count="899" data-prefix="Q">Q899</span> <small data-i18n="plans.period">/ mes</small></p>
+            <p class="plan__price"><span class="num" data-count="899" data-prefix="Q">Q899</span> <small data-i18n="plans.period">/ mes · IVA incl.</small></p>
             <ul class="plan__list" role="list">
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p3.f1">Todo lo del plan Club</span></li>
               <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="plans.p3.f2">8 sesiones 1 a 1 al mes</span></li>
@@ -337,7 +337,6 @@
             <a class="keytag keytag--outline keytag--block" href="https://wa.me/50250000000" data-wa-plan="plans.p3.name" target="_blank" rel="noopener"><span class="keytag__hole" aria-hidden="true"></span><span data-i18n="plans.choose" data-i18n-plan="plans.p3.name">Elegir plan Pro</span></a>
           </article>
         </div>
-        <p class="plans__taxes" data-i18n="plans.taxes">Precios en quetzales con IVA incluido. Emitimos factura electrónica (FEL).</p>
       </div>
     </section>
 
@@ -362,7 +361,7 @@
           <figcaption><strong>Sofía Paz</strong> <span data-i18n="stories.s3.role">21 años · Plan Estudiante</span></figcaption>
         </figure>
 
-        <p class="stories__note" data-i18n="stories.disclaimer">Los resultados varían según cada persona y dependen de la constancia, la alimentación y el descanso.</p>
+        <p class="stories__note" data-i18n="stories.disclaimer">Los resultados varían según cada persona.</p>
       </div>
     </section>
 
@@ -468,7 +467,6 @@
             <span class="keytag__label" data-i18n="cta.trial">Quiero mi clase gratis</span>
             <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
           </a>
-          <p class="consent" data-i18n="consent.whatsapp">Al escribirnos aceptas nuestro <a href=\"privacidad.html\">Aviso de privacidad</a>.</p>
         </div>
         <figure class="locker closing__locker" data-parallax="-0.06" data-tilt>
           <span class="locker__vents" aria-hidden="true"></span>
@@ -532,7 +530,7 @@
         <div class="map-gate">
           <i class="ph-light ph-map-pin" aria-hidden="true"></i>
           <button class="keytag keytag--outline keytag--sm" type="button" data-map-load><span class="keytag__hole" aria-hidden="true"></span><span data-i18n="footer.mapLoad">Ver mapa</span></button>
-          <p class="map-gate__note" data-i18n="footer.mapNote">Al abrir el mapa, Google Maps recibe tu dirección IP y puede usar cookies.</p>
+          <p class="map-gate__note" data-i18n="footer.mapNote">Google Maps recibirá tu IP y podrá usar cookies al abrirlo.</p>
         </div>
       </div>
     </div>
@@ -543,11 +541,9 @@
         <a href="privacidad.html" data-i18n="footer.privacy">Aviso de privacidad</a>
         <a href="terminos.html" data-i18n="footer.terms">Términos y condiciones</a>
         <a href="privacidad.html#cookies" data-i18n="footer.cookies">Cookies</a>
+        <a href="terminos.html#quejas" data-i18n="footer.complaintsLink">Quejas</a>
         <button type="button" class="footer__btn" data-cookie-settings data-i18n="footer.cookieSettings">Configurar cookies</button>
       </nav>
-    </div>
-    <div class="wrap footer__complaints">
-      <p data-i18n="footer.complaints">Libro de quejas disponible en recepción. También puedes acudir a la DIACO: 1544.</p>
     </div>
   </footer>
 

@@ -14,3 +14,6 @@ node_modules/
 skills-lock.json
 PRODUCT.md
 DESIGN.md
+
+# Registros de origen de imágenes (el origen ya va dentro de cada archivo)
+img/*.json

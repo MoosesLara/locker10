@@ -554,88 +554,164 @@
     window.addEventListener("resize", moveThumb);
   }
 
-  /* ---------- Carrusel de programas ----------
+  /* ---------- Carrusel de programas (infinito) ----------
      La pista usa el scroll nativo con imán (scroll-snap): el dedo, el trackpad
-     y la rueda funcionan solos. Aquí se agregan botones, contador, barra de
-     avance, teclado, arrastre con mouse y anuncios para lectores de pantalla. */
+     y la rueda funcionan solos y se sienten naturales.
+     Para que sea infinito, las tarjetas se repiten: [copias | originales | copias].
+     Cuando el movimiento termina sobre una copia, la pista salta en silencio a la
+     tarjeta original idéntica (mismo aspecto, misma posición en pantalla): el
+     salto no se ve y siempre hay una tarjeta siguiente en ambas direcciones. */
   document.querySelectorAll("[data-carousel]").forEach(function (carousel) {
     var section = carousel.closest("section") || document;
     var track = carousel.querySelector("[data-carousel-track]");
-    var slides = Array.prototype.slice.call(track.children);
+    var originals = Array.prototype.slice.call(track.children);
     var prevBtn = section.querySelector("[data-carousel-prev]");
     var nextBtn = section.querySelector("[data-carousel-next]");
     var currentEl = section.querySelector("[data-carousel-current]");
     var totalEl = section.querySelector("[data-carousel-total]");
     var bar = carousel.querySelector("[data-carousel-bar]");
     var status = carousel.querySelector("[data-carousel-status]");
-    var n = slides.length;
+    var n = originals.length;
     if (!n) return;
 
     function pad(i) { return (i < 10 ? "0" : "") + i; }
     if (totalEl) totalEl.textContent = pad(n);
     function labelSlides() {
-      slides.forEach(function (slide, i) {
+      originals.forEach(function (slide, i) {
         slide.setAttribute("aria-label", t("programs.slideOf", { i: i + 1, n: n }));
       });
     }
     labelSlides();
     langHooks.push(labelSlides);
+
+    // Copias antes y después. Están ocultas para lectores de pantalla (las originales ya se anuncian).
+    function makeClone(slide) {
+      var clone = slide.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.removeAttribute("aria-label");
+      clone.removeAttribute("data-door");
+      clone.classList.add("is-clone");
+      if (!hasIO) clone.classList.add("is-in");
+      return clone;
+    }
+    var before = document.createDocumentFragment();
+    var after = document.createDocumentFragment();
+    originals.forEach(function (s) { before.appendChild(makeClone(s)); after.appendChild(makeClone(s)); });
+    track.insertBefore(before, track.firstChild);
+    track.appendChild(after);
+    var slides = Array.prototype.slice.call(track.children); // 3 × n: [copias | originales | copias]
     slides.forEach(function (slide) {
       slide.querySelectorAll("img").forEach(function (img) { img.draggable = false; });
     });
-
-    // Cada diapositiva queda centrada en scrollLeft = índice × paso
-    function step() { return n > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth; }
-    function maxScroll() { return Math.max(0, track.scrollWidth - track.clientWidth); }
-    function atEnd() { return track.scrollLeft >= maxScroll() - 2; }
-    function currentIndex() {
-      return Math.max(0, Math.min(n - 1, Math.round(track.scrollLeft / step())));
+    // Las copias se revelan junto con la original (mismo momento de la animación de entrada)
+    if (hasIO) {
+      var revealIO = new IntersectionObserver(function (entries) {
+        if (!entries.some(function (e) { return e.isIntersecting; })) return;
+        slides.forEach(function (s) { if (s.classList.contains("is-clone")) s.classList.add("is-in"); });
+        revealIO.disconnect();
+      });
+      revealIO.observe(track);
     }
 
-    function goTo(i, announce) {
-      i = Math.max(0, Math.min(n - 1, i));
-      track.scrollTo({ left: i * step(), behavior: reduceMotion ? "auto" : "smooth" });
-      if (announce && status) {
-        var title = slides[i].querySelector("h3");
-        status.textContent = t("programs.status", { i: i + 1, n: n, name: title ? title.textContent : "" });
-      }
+    // Segundo tramo de la barra: entra por la izquierda mientras el primero sale por la derecha
+    var bar2 = null;
+    if (bar) {
+      bar2 = bar.cloneNode(false);
+      bar2.removeAttribute("data-carousel-bar");
+      bar.parentNode.appendChild(bar2);
     }
 
+    // La diapositiva k (0 … 3n-1) queda centrada en scrollLeft = k × paso
+    var stepCache = 0;
+    function step() {
+      if (!stepCache) stepCache = slides[1].offsetLeft - slides[0].offsetLeft || track.clientWidth;
+      return stepCache;
+    }
+    window.addEventListener("resize", function () { stepCache = 0; });
+    function position() { return track.scrollLeft / step(); }       // continuo (ej. 5.4)
+    function nearest() { return Math.round(position()); }           // diapositiva centrada
+    function real(k) { return ((k % n) + n) % n; }                    // 0 … n-1
+
+    var currentK = -1;
     function update() {
-      // Primero se leen todas las medidas y después se escribe: sin recálculos forzados
-      var i = currentIndex();
-      var left = track.scrollLeft;
-      var max = maxScroll();
-      var end = atEnd();
-      if (currentEl) currentEl.textContent = pad(i + 1);
-      slides.forEach(function (s, k) { s.classList.toggle("is-current", k === i); });
-      if (prevBtn) prevBtn.disabled = left <= 2;
-      if (nextBtn) nextBtn.disabled = end;
+      var p = position();
+      var k = Math.round(p);
+      var r = real(k);
+      if (k !== currentK) {
+        currentK = k;
+        if (currentEl) currentEl.textContent = pad(r + 1);
+        slides.forEach(function (s, j) { s.classList.toggle("is-current", j === k); });
+      }
       if (bar) {
-        // Un tramo por diapositiva que se desliza de forma continua con el scroll
-        var progress = max ? left / max : 0;
-        bar.style.setProperty("--thumb", (100 / n).toFixed(2) + "%");
-        bar.style.setProperty("--thumb-x", (progress * (n - 1) * 100).toFixed(2) + "%");
+        // Avance continuo y circular: un tramo por diapositiva
+        var loop = ((p % n) + n) % n;                 // 0 … n (sin saltos)
+        bar.style.setProperty("--thumb", (100 / n).toFixed(3) + "%");
+        bar.style.setProperty("--thumb-x", (loop * 100).toFixed(2) + "%");
+        bar2.style.setProperty("--thumb", (100 / n).toFixed(3) + "%");
+        bar2.style.setProperty("--thumb-x", ((loop - n) * 100).toFixed(2) + "%");
       }
     }
 
-    var pending = false;
+    // Salto silencioso a la copia equivalente del grupo central
+    function recenter() {
+      var k = nearest();
+      if (k >= n && k < 2 * n) return;
+      var target = real(k) + n;
+      track.classList.add("is-jumping");               // sin transiciones durante el salto
+      track.scrollLeft = target * step();
+      update();
+      requestAnimationFrame(function () { requestAnimationFrame(function () { track.classList.remove("is-jumping"); }); });
+    }
+
+    // Destino de la animación en curso: los clics rápidos suman desde aquí y no se pierden
+    var targetK = null;
+    function base() { return targetK !== null ? targetK : nearest(); }
+
+    function goTo(k, announce) {
+      // Si el destino cae fuera de las copias, primero se recentra (invisible) y se recalcula
+      if (k < 1 || k > 3 * n - 2) {
+        var cur = nearest();
+        var shift = (real(cur) + n) - cur;   // cuánto se mueve el recentrado
+        recenter();
+        k += shift;
+      }
+      targetK = k;
+      track.scrollTo({ left: k * step(), behavior: reduceMotion ? "auto" : "smooth" });
+      if (announce && status) {
+        var title = slides[k].querySelector("h3");
+        status.textContent = t("programs.status", { i: real(k) + 1, n: n, name: title ? title.textContent : "" });
+      }
+    }
+
+    // Movimiento y fin del movimiento
+    var pending = false, settleTimer = 0, dragging = false;
     track.addEventListener("scroll", function () {
-      if (pending) return;
-      pending = true;
-      requestAnimationFrame(function () { pending = false; update(); });
+      if (!pending) {
+        pending = true;
+        requestAnimationFrame(function () { pending = false; update(); });
+      }
+      // Respaldo para navegadores sin el evento "scrollend"
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(settle, 160);
     }, { passive: true });
-    window.addEventListener("resize", update);
+    function settle() {
+      if (dragging) return;
+      clearTimeout(settleTimer);
+      targetK = null;
+      recenter();
+    }
+    track.addEventListener("scrollend", settle);
+    window.addEventListener("resize", function () { requestAnimationFrame(function () { track.scrollLeft = (real(nearest()) + n) * step(); update(); }); });
 
-    if (prevBtn) prevBtn.addEventListener("click", function () { goTo(currentIndex() - 1, true); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { goTo(currentIndex() + 1, true); });
+    if (prevBtn) prevBtn.addEventListener("click", function () { goTo(base() - 1, true); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { goTo(base() + 1, true); });
 
-    // Teclado: flechas avanzan una diapositiva; Inicio y Fin van a los extremos
+    // Teclado: flechas avanzan una diapositiva; Inicio y Fin van a la primera y la última
     track.addEventListener("keydown", function (e) {
       var map = { ArrowRight: 1, ArrowLeft: -1 };
-      if (e.key in map) { e.preventDefault(); goTo(currentIndex() + map[e.key], true); }
-      else if (e.key === "Home") { e.preventDefault(); goTo(0, true); }
-      else if (e.key === "End") { e.preventDefault(); goTo(n - 1, true); }
+      if (e.key in map) { e.preventDefault(); goTo(base() + map[e.key], true); }
+      else if (e.key === "Home") { e.preventDefault(); goTo(n, true); }
+      else if (e.key === "End") { e.preventDefault(); goTo(2 * n - 1, true); }
     });
 
     // Arrastre con mouse (en táctil ya lo resuelve el scroll nativo)
@@ -643,6 +719,7 @@
     var suppressClick = false;
     track.addEventListener("pointerdown", function (e) {
       if (e.pointerType !== "mouse" || e.button !== 0) return;
+      targetK = null;
       drag = { x: e.clientX, left: track.scrollLeft, lastX: e.clientX, lastT: e.timeStamp, v: 0, moved: false };
     });
     track.addEventListener("pointermove", function (e) {
@@ -650,6 +727,7 @@
       var dx = e.clientX - drag.x;
       if (!drag.moved && Math.abs(dx) > 5) {
         drag.moved = true;
+        dragging = true;
         track.classList.add("is-dragging");
         track.setPointerCapture(e.pointerId);
       }
@@ -665,12 +743,13 @@
       var d = drag;
       drag = null;
       if (!d.moved) return;
+      dragging = false;
       suppressClick = true;
       setTimeout(function () { suppressClick = false; }, 60);
       if (track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) track.releasePointerCapture(e.pointerId);
       // Proyecta la inercia del gesto y se asienta en la diapositiva más cercana
-      var projected = track.scrollLeft - d.v * 220;
-      goTo(Math.round(projected / step()), true);
+      var projected = (track.scrollLeft - d.v * 220) / step();
+      goTo(Math.round(projected), true);
       var release = function () { track.classList.remove("is-dragging"); };
       if ("onscrollend" in window) track.addEventListener("scrollend", release, { once: true });
       setTimeout(release, 700);
@@ -682,13 +761,13 @@
     }, true);
 
     // Clic en una diapositiva lateral: la trae al centro
-    slides.forEach(function (slide, i) {
+    slides.forEach(function (slide, k) {
       slide.addEventListener("click", function () {
-        if (!slide.classList.contains("is-current")) goTo(i, true);
+        if (!slide.classList.contains("is-current")) goTo(k, true);
       });
     });
 
-    // Diapositiva inicial: data-start en el HTML (1 = la primera)
+    // Diapositiva inicial: data-start en el HTML (1 = la primera), dentro del grupo central
     var start = Math.max(0, Math.min(n - 1, (parseInt(carousel.dataset.start, 10) || 1) - 1));
     var touched = false;
     ["pointerdown", "keydown", "wheel", "touchstart"].forEach(function (type) {
@@ -697,8 +776,11 @@
     [prevBtn, nextBtn].forEach(function (b) { if (b) b.addEventListener("click", function () { touched = true; }); });
     function placeStart() {
       if (touched) return;
-      track.scrollLeft = start * step();
+      stepCache = 0;
+      track.classList.add("is-jumping");
+      track.scrollLeft = (start + n) * step();
       update();
+      requestAnimationFrame(function () { track.classList.remove("is-jumping"); });
     }
     // Se mide en el primer cuadro (no durante la carga del script) para no forzar
     // un cálculo de layout que bloquee el hilo principal
